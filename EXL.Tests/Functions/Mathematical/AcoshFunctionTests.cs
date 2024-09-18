@@ -17,7 +17,7 @@ namespace EXL.Tests.Functions.Mathematical
         public void Execute_WithValidNumber_ReturnsAcoshValue()
         {
             var result = _acoshFunction.Execute(new object[] { 1.5 });
-            Assert.AreEqual(Math.Acosh(1.5), result);
+            Assert.That(result, Is.EqualTo(Math.Acosh(1.5)));
         }
 
         [Test]
@@ -29,7 +29,7 @@ namespace EXL.Tests.Functions.Mathematical
         [Test]
         public void Execute_WithInvalidType_ThrowsInvalidOperationException()
         {
-            Assert.Throws<InvalidOperationException>(() => _acoshFunction.Execute(new object[] { "invalid" }));
+            Assert.Throws<InvalidCastException>(() => _acoshFunction.Execute(new object[] { "invalid" }));
         }
 
         [Test]

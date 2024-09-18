@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using EXL.Utils;
 
 namespace EXL.Functions.Mathematical
 {
@@ -15,7 +11,7 @@ namespace EXL.Functions.Mathematical
                 throw new InvalidOperationException("COS function requires exactly one argument: number.");
             }
 
-            double number = Convert.ToDouble(args[0]);
+            Checks.CanConvertToDouble(args[0], "COS function requires a number argument", out double number);
 
             return Math.Cos(number);  // Return the cosine of the angle (in radians)
         }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using EXL.Utils;
 
 namespace EXL.Functions.Mathematical
 {
@@ -15,8 +11,8 @@ namespace EXL.Functions.Mathematical
                 throw new InvalidOperationException("MOD function requires exactly two arguments: number and divisor.");
             }
 
-            double number = Convert.ToDouble(args[0]);
-            double divisor = Convert.ToDouble(args[1]);
+            Checks.CanConvertToDouble(args[0], "MOD function requires a number argument", out double number);
+            Checks.CanConvertToDouble(args[1], "MOD function requires a divisor argument", out double divisor);
 
             if (divisor == 0)
             {

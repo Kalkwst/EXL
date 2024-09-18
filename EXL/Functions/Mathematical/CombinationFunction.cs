@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using EXL.Utils;
 
 namespace EXL.Functions.Mathematical
 {
@@ -15,8 +11,11 @@ namespace EXL.Functions.Mathematical
                 throw new InvalidOperationException("COMBINATION function requires exactly two arguments: number and number_chosen.");
             }
 
-            int n = (int)Math.Floor(Convert.ToDouble(args[0]));  // Truncate to integer
-            int k = (int)Math.Floor(Convert.ToDouble(args[1]));  // Truncate to integer
+            Checks.CanConvertToDouble(args[0], "COMBINATION function requires a number argument for n.", out double x);
+            Checks.CanConvertToDouble(args[1], "COMBINATION function requires a number argument for k.", out double y);
+
+            int n = (int)Math.Floor(x);  // Truncate to integer
+            int k = (int)Math.Floor(y);  // Truncate to integer
 
             if (n < 0 || k < 0 || n < k)
             {

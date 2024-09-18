@@ -17,14 +17,14 @@ namespace EXL.Tests.Functions.Mathematical
         public void Execute_WithSingleDoubleValue_ReturnsAbsoluteValue()
         {
             var result = _absFunction.Execute(-5.5);
-            Assert.AreEqual(5.5, result);
+            Assert.That(result, Is.EqualTo(5.5));
         }
 
         [Test]
         public void Execute_WithSingleIntValue_ReturnsAbsoluteValue()
         {
             var result = _absFunction.Execute(-5);
-            Assert.AreEqual(5.0, result);
+            Assert.That(result, Is.EqualTo(5.0));
         }
 
         [Test]

@@ -1,4 +1,6 @@
-﻿namespace EXL.Functions.Mathematical
+﻿using EXL.Utils;
+
+namespace EXL.Functions.Mathematical
 {
     public class AtanFunction : IFunction
     {
@@ -6,16 +8,16 @@
         {
             if (args.Length == 1)
             {
-                // Single argument: Compute the arctangent of the number
-                double number = Convert.ToDouble(args[0]);
+                Checks.CanConvertToDouble(args[0], "ATAN function requires a numeric value.", out double number);
                 return Math.Atan(number);  // Return the arctangent in radians
             }
             else if (args.Length == 2)
             {
-                // Two arguments: Compute the arctangent based on (y, x) coordinates
-                double y = Convert.ToDouble(args[0]);
-                double x = Convert.ToDouble(args[1]);
-                return Math.Atan2(y, x);  // Return the angle in radians
+                // Two arguments: Compute the arctangent based on (x, y) coordinates
+                Checks.CanConvertToDouble(args[0], "ATAN function requires a numeric value for the x-coordinate.", out double x);
+                Checks.CanConvertToDouble(args[1], "ATAN function requires a numeric value for the y-coordinate.", out double y);
+                
+                return Math.Atan2(x, y);  // Return the angle in radians
             }
             else
             {

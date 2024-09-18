@@ -1,4 +1,6 @@
-﻿namespace EXL.Functions.Mathematical
+﻿using EXL.Utils;
+
+namespace EXL.Functions.Mathematical
 {
     public class PowerFunction : IFunction
     {
@@ -9,8 +11,8 @@
                 throw new InvalidOperationException("POWER function requires exactly two arguments: number and power.");
             }
 
-            double number = Convert.ToDouble(args[0]);
-            double power = Convert.ToDouble(args[1]);
+            Checks.CanConvertToDouble(args[0], "POWER function requires a number argument", out double number);
+            Checks.CanConvertToDouble(args[1], "POWER function requires a power argument", out double power);
 
             return Math.Pow(number, power);  // Return number raised to the power
         }

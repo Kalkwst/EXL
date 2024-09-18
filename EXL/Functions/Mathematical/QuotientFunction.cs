@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using EXL.Utils;
 
 namespace EXL.Functions.Mathematical
 {
@@ -15,8 +11,8 @@ namespace EXL.Functions.Mathematical
                 throw new InvalidOperationException("QUOTIENT function requires exactly two arguments: numerator and denominator.");
             }
 
-            double numerator = Convert.ToDouble(args[0]);
-            double denominator = Convert.ToDouble(args[1]);
+            Checks.CanConvertToDouble(args[0], "QUOTIENT function requires a numerator argument", out double numerator);
+            Checks.CanConvertToDouble(args[1], "QUOTIENT function requires a denominator argument", out double denominator);
 
             if (denominator == 0)
             {

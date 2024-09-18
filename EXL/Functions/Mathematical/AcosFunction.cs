@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using EXL.Utils;
 
 namespace EXL.Functions.Mathematical
 {
@@ -15,22 +11,14 @@ namespace EXL.Functions.Mathematical
                 throw new InvalidOperationException("ACOS function requires exactly one argument: number.");
             }
 
-            double number;
-            try
-            {
-                number = Convert.ToDouble(args[0]);
-            }
-            catch (Exception ex)
-            {
-                throw new InvalidOperationException("The argument for ACOS must be a numeric value.", ex);
-            }
+            Checks.CanConvertToDouble(args[0], "ACOS function requires a numeric value.", out double number);
 
             if (number < -1 || number > 1)
             {
                 throw new InvalidOperationException("The number argument for ACOS must be between -1 and 1.");
             }
 
-            return Math.Acos(number);  // Return the arccosine of the number
+            return Math.Acos(number);
         }
     }
 }

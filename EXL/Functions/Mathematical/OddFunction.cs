@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EXL.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,7 +16,7 @@ namespace EXL.Functions.Mathematical
                 throw new InvalidOperationException("ODD function requires exactly one argument: number.");
             }
 
-            double number = Convert.ToDouble(args[0]);
+            Checks.CanConvertToDouble(args[0], "ODD function requires a number argument", out double number);
 
             // Check if the input is nonnumeric
             if (double.IsNaN(number))

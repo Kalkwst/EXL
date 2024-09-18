@@ -1,4 +1,6 @@
-﻿namespace EXL.Functions.Mathematical
+﻿using EXL.Utils;
+
+namespace EXL.Functions.Mathematical
 {
     public class AsinFunction : IFunction
     {
@@ -9,7 +11,7 @@
                 throw new InvalidOperationException("ASIN function requires exactly one argument: number.");
             }
 
-            double number = Convert.ToDouble(args[0]);
+            Checks.CanConvertToDouble(args[0], "ASIN function requires a number argument", out double number);
 
             if (number < -1 || number > 1)
             {

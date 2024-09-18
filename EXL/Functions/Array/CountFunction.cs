@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EXL.Functions.Mathematical
+namespace EXL.Functions.Array
 {
     public class CountFunction : IFunction
     {

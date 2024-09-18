@@ -18,19 +18,19 @@ namespace EXL.Tests.Functions.Mathematical
         public void Execute_WithValidNumber_ReturnsAcosValue()
         {
             var result = _acosFunction.Execute(new object[] { 0.5 });
-            Assert.AreEqual(Math.Acos(0.5), result);
+            Assert.That(result, Is.EqualTo(Math.Acos(0.5)));
         }
 
         [Test]
         public void Execute_WithNumberOutOfRange_ThrowsInvalidOperationException()
         {
-            Assert.Throws<InvalidOperationException>(() => _acosFunction.Execute(new object[] { 2 }));
+            Assert.Throws<InvalidCastException>(() => _acosFunction.Execute(new object[] { 2 }));
         }
 
         [Test]
         public void Execute_WithInvalidType_ThrowsInvalidOperationException()
         {
-            Assert.Throws<InvalidOperationException>(() => _acosFunction.Execute(new object[] { "invalid" }));
+            Assert.Throws<InvalidCastException>(() => _acosFunction.Execute(new object[] { "invalid" }));
         }
 
         [Test]

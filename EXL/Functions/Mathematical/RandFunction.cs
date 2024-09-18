@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using EXL.Utils;
 
 namespace EXL.Functions.Mathematical
 {
@@ -20,7 +16,7 @@ namespace EXL.Functions.Mathematical
             else if (args.Length == 1)
             {
                 // One argument: Return a random number between 1 and the argument
-                double max = Convert.ToDouble(args[0]);
+                Checks.CanConvertToDouble(args[0], "RAND function requires a number argument", out double max);
 
                 if (max <= 1)
                 {
@@ -32,8 +28,8 @@ namespace EXL.Functions.Mathematical
             else if (args.Length == 2)
             {
                 // Two arguments: Return a random number between min and max
-                double min = Convert.ToDouble(args[0]);
-                double max = Convert.ToDouble(args[1]);
+                Checks.CanConvertToDouble(args[0], "RAND function requires a number argument", out double min);
+                Checks.CanConvertToDouble(args[1], "RAND function requires a number argument", out double max);
 
                 if (min >= max)
                 {

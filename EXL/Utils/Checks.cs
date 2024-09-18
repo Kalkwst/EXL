@@ -1,4 +1,6 @@
-﻿namespace EXL.Utils
+﻿using System.Globalization;
+
+namespace EXL.Utils
 {
     /// <summary>
     /// Provides utility methods for various checks and validations.
@@ -14,11 +16,14 @@
         /// <remarks>
         /// This method uses <see cref="double.TryParse(string, out double)"/> to attempt the conversion. If the conversion fails, an <see cref="InvalidCastException"/> is thrown.
         /// </remarks>
-        public static void CanConvertToDouble(object value, out double result)
+        public static void CanConvertToDouble(object value, string pattern, out double result)
         {
-            if (!double.TryParse(value.ToString(), out result))
+            var styles = NumberStyles.Float | NumberStyles.AllowThousands;
+            var culture = CultureInfo.InvariantCulture;
+
+            if (!double.TryParse(value.ToString(), styles, culture, out result))
             {
-                throw new InvalidCastException("The provided value cannot be converted to a double.");
+                throw new InvalidCastException(pattern);
             }
         }
     }
