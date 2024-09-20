@@ -9,7 +9,7 @@
       },
       "orderingRules": {
         "blankLinesBetweenUsingGroups": "omit",
-        "usingDirectivesPlacement": "outsideNamespace"
+        "usingDirectivesPlacement": "preserve"
       }
     }
   }
