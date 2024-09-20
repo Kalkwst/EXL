@@ -1,9 +1,10 @@
-﻿using EXL.Utils;
+using EXL.Utils;
 
 namespace EXL.Functions.Mathematical
 {
     public class AcosFunction : IFunction
     {
+
         public object Execute(object[] args)
         {
             if (args.Length != 1)
@@ -11,7 +12,10 @@ namespace EXL.Functions.Mathematical
                 throw new InvalidOperationException("ACOS function requires exactly one argument: number.");
             }
 
-            Checks.CanConvertToDouble(args[0], "ACOS function requires a numeric value.", out double number);
+            if (!Checks.TryConvertToDouble(args[0], out var number))
+            {
+                throw new InvalidOperationException("ACOS function requires a numeric value.");
+            }
 
             if (number < -1 || number > 1)
             {
