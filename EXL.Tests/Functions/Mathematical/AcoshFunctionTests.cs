@@ -30,7 +30,7 @@ namespace EXL.Tests.Functions.Mathematical
         [Test]
         public void Execute_WithInvalidType_ThrowsInvalidOperationException()
         {
-            Assert.Throws<InvalidCastException>(() => _acoshFunction.Execute(new object[] { "invalid" }));
+            Assert.Throws<InvalidOperationException>(() => _acoshFunction.Execute(new object[] { "invalid" }));
         }
 
         [Test]
