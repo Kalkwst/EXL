@@ -23,12 +23,12 @@ namespace EXL.Functions.Mathematical
                 throw new InvalidOperationException("ASIN function requires exactly one argument: number.");
             }
 
-            if (!Checks.TryConvertToDouble(args[0], out double number))
+            if (args[0] is not double number && !Checks.TryConvertToDouble(args[0], out number))
             {
                 throw new InvalidOperationException("ASIN function requires a number argument.");
             }
 
-            if (number < -1 || number > 1)
+            if (number is < -1.0 or > 1.0)
             {
                 throw new InvalidOperationException("The number argument for ASIN must be between -1 and 1.");
             }
@@ -36,5 +36,4 @@ namespace EXL.Functions.Mathematical
             return Math.Asin(number);  // Return the arcsine of the number
         }
     }
-
 }
