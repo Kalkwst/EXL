@@ -1,48 +1,48 @@
-﻿using EXL.Functions.Mathematical;
-using NUnit.Framework;
+using EXL.Functions.Mathematical;
 
 namespace EXL.Tests.Functions.Mathematical
 {
     [TestFixture]
     internal class AcosFunctionTests
     {
-        private AcosFunction _acosFunction;
+        private AcosFunction acosFunction;
+        internal static readonly object[] args = [];
 
         [SetUp]
         public void SetUp()
         {
-            _acosFunction = new AcosFunction();
+            acosFunction = new AcosFunction();
         }
 
         [Test]
         public void Execute_WithValidNumber_ReturnsAcosValue()
         {
-            var result = _acosFunction.Execute(new object[] { 0.5 });
+            var result = acosFunction.Execute([0.5]);
             Assert.That(result, Is.EqualTo(Math.Acos(0.5)));
         }
 
         [Test]
         public void Execute_WithNumberOutOfRange_ThrowsInvalidOperationException()
         {
-            Assert.Throws<InvalidCastException>(() => _acosFunction.Execute(new object[] { 2 }));
+            Assert.Throws<InvalidOperationException>(() => acosFunction.Execute([2]));
         }
 
         [Test]
         public void Execute_WithInvalidType_ThrowsInvalidOperationException()
         {
-            Assert.Throws<InvalidCastException>(() => _acosFunction.Execute(new object[] { "invalid" }));
+            Assert.Throws<InvalidOperationException>(() => acosFunction.Execute(["invalid"]));
         }
 
         [Test]
         public void Execute_WithMultipleArguments_ThrowsInvalidOperationException()
         {
-            Assert.Throws<InvalidOperationException>(() => _acosFunction.Execute(new object[] { 0.5, 0.5 }));
+            Assert.Throws<InvalidOperationException>(() => acosFunction.Execute([0.5, 0.5]));
         }
 
         [Test]
         public void Execute_WithEmptyArguments_ThrowsInvalidOperationException()
         {
-            Assert.Throws<InvalidOperationException>(() => _acosFunction.Execute(new object[] { }));
+            Assert.Throws<InvalidOperationException>(() => acosFunction.Execute(args));
         }
     }
 }
