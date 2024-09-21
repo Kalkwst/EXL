@@ -8,27 +8,6 @@ namespace EXL.Utils
     public static class Checks
     {
         /// <summary>
-        /// Attempts to convert the specified value to a double.
-        /// </summary>
-        /// <param name="value">The value to be converted to a double.</param>
-        /// <param name="pattern">The string pattern to use in the exception message.</param>
-        /// <param name="result">When this method returns, contains the double value equivalent to the value contained in <paramref name="value"/>, if the conversion succeeded, or zero if the conversion failed. This parameter is passed uninitialized.</param>
-        /// <exception cref="InvalidCastException">Thrown when the provided value cannot be converted to a double.</exception>
-        /// <remarks>
-        /// This method uses <see cref="double.TryParse(string, NumberStyles, IFormatProvider, out double)"/> to attempt the conversion. If the conversion fails, an <see cref="InvalidCastException"/> is thrown.
-        /// </remarks>
-        public static void CanConvertToDouble(object value, string pattern, out double result)
-        {
-            var styles = NumberStyles.Float | NumberStyles.AllowThousands;
-            var culture = CultureInfo.InvariantCulture;
-
-            if (!double.TryParse(value.ToString(), styles, culture, out result))
-            {
-                throw new InvalidCastException(pattern);
-            }
-        }
-
-        /// <summary>
         /// Tries to convert the specified value to a double.
         /// </summary>
         /// <param name="value">The value to be converted to a double.</param>
@@ -45,7 +24,24 @@ namespace EXL.Utils
                 return false;
             }
 
-            return double.TryParse(value.ToString(), NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out result);
+            return double.TryParse(NormalizeDecimal(value.ToString()), out result);
+        }
+
+        /// <summary>
+        /// Normalizes the decimal separator in the specified string value.
+        /// </summary>
+        /// <param name="value">The string value to normalize.</param>
+        /// <returns>A string with the normalized decimal separator.</returns>
+        private static string NormalizeDecimal(string? value)
+        {
+            if (value == null)
+            {
+                return string.Empty;
+            }
+
+            return NumberFormatInfo.CurrentInfo.NumberDecimalSeparator == "."
+                ? value.Replace(",", ".")
+                : value.Replace(".", ",");
         }
     }
 }

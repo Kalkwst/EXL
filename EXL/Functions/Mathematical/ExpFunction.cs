@@ -1,4 +1,4 @@
-﻿using EXL.Utils;
+using EXL.Utils;
 
 namespace EXL.Functions.Mathematical
 {
@@ -11,7 +11,10 @@ namespace EXL.Functions.Mathematical
                 throw new InvalidOperationException("EXP function requires exactly one argument: number.");
             }
 
-            Checks.CanConvertToDouble(args[0], "EXP function requires a number argument", out double number);
+            if (!Checks.TryConvertToDouble(args[0], out var number))
+            {
+                throw new InvalidOperationException("ACOS function requires a numeric value.");
+            }
 
             return Math.Exp(number);  // Return e raised to the power of number
         }

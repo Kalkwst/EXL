@@ -1,9 +1,21 @@
-﻿using EXL.Utils;
+using EXL.Utils;
 
 namespace EXL.Functions.Mathematical
 {
+    /// <summary>
+    /// Provides the implementation of the ASIN function which returns the arcsine of a number.
+    /// </summary>
     public class AsinFunction : IFunction
     {
+        /// <summary>
+        /// Executes the ASIN function on the provided argument.
+        /// </summary>
+        /// <param name="args">An array containing a single numeric value.</param>
+        /// <returns>The arcsine of the provided numeric value.</returns>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown when the number of arguments is not one, the argument is not a numeric value, 
+        /// or the numeric value is not between -1 and 1.
+        /// </exception>
         public object Execute(object[] args)
         {
             if (args.Length != 1)
@@ -11,7 +23,10 @@ namespace EXL.Functions.Mathematical
                 throw new InvalidOperationException("ASIN function requires exactly one argument: number.");
             }
 
-            Checks.CanConvertToDouble(args[0], "ASIN function requires a number argument", out double number);
+            if (!Checks.TryConvertToDouble(args[0], out double number))
+            {
+                throw new InvalidOperationException("ASIN function requires a number argument.");
+            }
 
             if (number < -1 || number > 1)
             {

@@ -1,4 +1,4 @@
-﻿using EXL.Utils;
+using EXL.Utils;
 
 namespace EXL.Functions.Mathematical
 {
@@ -11,8 +11,15 @@ namespace EXL.Functions.Mathematical
                 throw new InvalidOperationException("CEILING function requires exactly two arguments: number and significance.");
             }
 
-            Checks.CanConvertToDouble(args[0], "CEILING function requires a number argument.", out double number);
-            Checks.CanConvertToDouble(args[1], "CEILING function requires a significance argument.", out double significance);
+            if (!Checks.TryConvertToDouble(args[0], out var number))
+            {
+                throw new InvalidOperationException("ACOS function requires a numeric value.");
+            }
+
+            if (!Checks.TryConvertToDouble(args[1], out var significance))
+            {
+                throw new InvalidOperationException("ACOS function requires a numeric value.");
+            }
 
             if (significance == 0)
             {

@@ -13,96 +13,96 @@ namespace EXL
 
         public Tokenizer(string input)
         {
-            _input = input;
-            _position = 0;
+            this._input = input;
+            this._position = 0;
         }
 
-        private char CurrentChar => _position < _input.Length ? _input[_position] : '\0';
+        private char CurrentChar => this._position < this._input.Length ? this._input[this._position] : '\0';
 
         public Token GetNextToken()
         {
-            while (CurrentChar != '\0')
+            while (this.CurrentChar != '\0')
             {
-                if (char.IsWhiteSpace(CurrentChar))
+                if (char.IsWhiteSpace(this.CurrentChar))
                 {
-                    _position++;
+                    this._position++;
                     continue;
                 }
 
                 // Handle strings enclosed in quotes
-                if (CurrentChar == '"' || CurrentChar == '\'')
+                if (this.CurrentChar == '"' || this.CurrentChar == '\'')
                 {
-                    return GetString();
+                    return this.GetString();
                 }
 
                 // Handle numbers
-                if (char.IsDigit(CurrentChar) || CurrentChar == '.')
+                if (char.IsDigit(this.CurrentChar) || this.CurrentChar == '.')
                 {
-                    return GetNumber();
+                    return this.GetNumber();
                 }
 
                 // Handle operators
-                if (CurrentChar == '+')
+                if (this.CurrentChar == '+')
                 {
-                    _position++;
+                    this._position++;
                     return new Token(TokenType.ADDITION, "+");
                 }
 
-                if (CurrentChar == '-')
+                if (this.CurrentChar == '-')
                 {
-                    _position++;
+                    this._position++;
                     return new Token(TokenType.SUBTRACTION, "-");
                 }
 
-                if (CurrentChar == '*')
+                if (this.CurrentChar == '*')
                 {
-                    _position++;
+                    this._position++;
                     return new Token(TokenType.MULTIPLICATION, "*");
                 }
 
-                if (CurrentChar == '/')
+                if (this.CurrentChar == '/')
                 {
-                    _position++;
+                    this._position++;
                     return new Token(TokenType.DIVISION, "/");
                 }
 
                 // Handle variables enclosed in curly braces
-                if (CurrentChar == '{')
+                if (this.CurrentChar == '{')
                 {
-                    return GetVariable();
+                    return this.GetVariable();
                 }
 
                 // Handle number arrays starting with [
-                if (CurrentChar == '[')
+                if (this.CurrentChar == '[')
                 {
-                    return GetArray();
+                    return this.GetArray();
                 }
 
-                if (CurrentChar == '(')
+                if (this.CurrentChar == '(')
                 {
-                    _position++;
+                    this._position++;
                     return new Token(TokenType.LEFT_PAREN, "(");
                 }
 
-                if (CurrentChar == ')')
+                if (this.CurrentChar == ')')
                 {
-                    _position++;
+                    this._position++;
                     return new Token(TokenType.RIGHT_PAREN, ")");
                 }
 
-                if (CurrentChar == ',')
+                if (this.CurrentChar == ',')
                 {
-                    _position++;
+                    this._position++;
                     return new Token(TokenType.COMMA, ",");
                 }
 
 
-                if (char.IsLetter(CurrentChar))
+                if (char.IsLetter(this.CurrentChar))
                 {
-                    return GetFunctionOrVariable();  // Handle functions or variables
+                    return this.GetFunctionOrVariable();  // Handle functions or variables
                 }
 
-                throw new InvalidOperationException($"Unexpected character: {CurrentChar}");
+                throw new InvalidOperationException($"Unexpected character: {this.CurrentChar}");
             }
 
             return new Token(TokenType.EOF, null);
@@ -110,19 +110,19 @@ namespace EXL
 
         private Token GetString()
         {
-            var stringDelimiter = CurrentChar;
-            _position++; // Skip the starting quote
+            var stringDelimiter = this.CurrentChar;
+            this._position++; // Skip the starting quote
 
             var sb = new StringBuilder();
-            while (CurrentChar != '\0' && CurrentChar != stringDelimiter)
+            while (this.CurrentChar != '\0' && this.CurrentChar != stringDelimiter)
             {
-                sb.Append(CurrentChar);
-                _position++;
+                sb.Append(this.CurrentChar);
+                this._position++;
             }
 
-            if (CurrentChar == stringDelimiter)
+            if (this.CurrentChar == stringDelimiter)
             {
-                _position++; // Skip the ending quote
+                this._position++; // Skip the ending quote
             }
             else
             {
@@ -137,11 +137,11 @@ namespace EXL
             var sb = new StringBuilder();
             bool haveDecimalPoint = false;
 
-            while (char.IsDigit(CurrentChar) || (!haveDecimalPoint && CurrentChar == '.'))
+            while (char.IsDigit(this.CurrentChar) || (!haveDecimalPoint && this.CurrentChar == '.'))
             {
-                sb.Append(CurrentChar);
-                haveDecimalPoint = CurrentChar == '.';
-                _position++;
+                sb.Append(this.CurrentChar);
+                haveDecimalPoint = this.CurrentChar == '.';
+                this._position++;
             }
 
             return new Token(TokenType.NUMBER, sb.ToString());
@@ -150,14 +150,14 @@ namespace EXL
         private Token GetFunctionOrVariable()
         {
             var sb = new StringBuilder();
-            while (char.IsLetter(CurrentChar))
+            while (char.IsLetter(this.CurrentChar))
             {
-                sb.Append(CurrentChar);
-                _position++;
+                sb.Append(this.CurrentChar);
+                this._position++;
             }
 
             // If followed by '(', it's a function
-            if (CurrentChar == '(')
+            if (this.CurrentChar == '(')
             {
                 return new Token(TokenType.FUNCTION, sb.ToString().ToUpperInvariant());  // Return function name as uppercase
             }
@@ -168,18 +168,18 @@ namespace EXL
 
         private Token GetVariable()
         {
-            _position++; // Skip the opening brace '{'
+            this._position++; // Skip the opening brace '{'
 
             var sb = new StringBuilder();
-            while (CurrentChar != '\0' && CurrentChar != '}')
+            while (this.CurrentChar != '\0' && this.CurrentChar != '}')
             {
-                sb.Append(CurrentChar);
-                _position++;
+                sb.Append(this.CurrentChar);
+                this._position++;
             }
 
-            if (CurrentChar == '}')
+            if (this.CurrentChar == '}')
             {
-                _position++; // Skip the closing brace '}'
+                this._position++; // Skip the closing brace '}'
             }
             else
             {
@@ -191,21 +191,21 @@ namespace EXL
 
         private bool IsStartOfBoolean()
         {
-            var remainingInput = _input.Substring(_position).ToLower();
+            var remainingInput = this._input.Substring(this._position).ToLower();
             return remainingInput.StartsWith("true") || remainingInput.StartsWith("false");
         }
 
         private Token GetBoolean()
         {
-            var remainingInput = _input.Substring(_position).ToLower();
+            var remainingInput = this._input.Substring(this._position).ToLower();
             if (remainingInput.StartsWith("true"))
             {
-                _position += 4; // Move past "true"
+                this._position += 4; // Move past "true"
                 return new Token(TokenType.BOOL, "TRUE");
             }
             else if (remainingInput.StartsWith("false"))
             {
-                _position += 5; // Move past "false"
+                this._position += 5; // Move past "false"
                 return new Token(TokenType.BOOL, "FALSE");
             }
 
@@ -215,10 +215,10 @@ namespace EXL
         private Token GetBooleanOrVariable()
         {
             var sb = new StringBuilder();
-            while (char.IsLetter(CurrentChar))
+            while (char.IsLetter(this.CurrentChar))
             {
-                sb.Append(CurrentChar);
-                _position++;
+                sb.Append(this.CurrentChar);
+                this._position++;
             }
 
             var word = sb.ToString().ToUpperInvariant();  // Convert to uppercase for case-insensitivity
@@ -234,34 +234,34 @@ namespace EXL
 
         private Token GetArray()
         {
-            _position++; // Skip the opening bracket '['
+            this._position++; // Skip the opening bracket '['
 
             var elements = new List<string>();
             var elementType = TokenType.NUMBER; // Default to number array initially
 
-            while (CurrentChar != '\0' && CurrentChar != ']')
+            while (this.CurrentChar != '\0' && this.CurrentChar != ']')
             {
                 // Skip commas and spaces
-                if (CurrentChar == ',' || char.IsWhiteSpace(CurrentChar))
+                if (this.CurrentChar == ',' || char.IsWhiteSpace(this.CurrentChar))
                 {
-                    _position++;
+                    this._position++;
                     continue;
                 }
 
                 // Check the type of the next element
-                if (char.IsDigit(CurrentChar) || CurrentChar == '.')
+                if (char.IsDigit(this.CurrentChar) || this.CurrentChar == '.')
                 {
-                    elements.Add(GetNumber().Value);
+                    elements.Add(this.GetNumber().Value);
                     elementType = TokenType.NUMBER_ARRAY;
                 }
-                else if (CurrentChar == '"' || CurrentChar == '\'')
+                else if (this.CurrentChar == '"' || this.CurrentChar == '\'')
                 {
-                    elements.Add(GetString().Value);
+                    elements.Add(this.GetString().Value);
                     elementType = TokenType.STRING_ARRAY;
                 }
-                else if (char.IsLetter(CurrentChar))
+                else if (char.IsLetter(this.CurrentChar))
                 {
-                    var boolToken = GetBooleanOrVariable();
+                    var boolToken = this.GetBooleanOrVariable();
                     if (boolToken.Type == TokenType.BOOL)
                     {
                         elements.Add(boolToken.Value);
@@ -278,9 +278,9 @@ namespace EXL
                 }
             }
 
-            if (CurrentChar == ']')
+            if (this.CurrentChar == ']')
             {
-                _position++; // Skip the closing bracket ']'
+                this._position++; // Skip the closing bracket ']'
             }
             else
             {

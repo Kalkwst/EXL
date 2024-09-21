@@ -1,4 +1,4 @@
-﻿using EXL.Utils;
+using EXL.Utils;
 
 namespace EXL.Functions.Mathematical
 {
@@ -11,7 +11,10 @@ namespace EXL.Functions.Mathematical
                 throw new InvalidOperationException("LOG function requires one or two arguments: number and an optional base.");
             }
 
-          Checks.CanConvertToDouble(args[0], "LOG function requires a number argument.", out double number);
+            if (!Checks.TryConvertToDouble(args[0], out var number))
+            {
+                throw new InvalidOperationException("ACOS function requires a numeric value.");
+            }
 
             if (number <= 0)
             {
@@ -20,7 +23,10 @@ namespace EXL.Functions.Mathematical
 
             if (args.Length == 2)
             {
-                Checks.CanConvertToDouble(args[1], "LOG function requires a base argument.", out double logBase);
+                if (!Checks.TryConvertToDouble(args[1], out var logBase))
+                {
+                    throw new InvalidOperationException("ACOS function requires a numeric value.");
+                }
                 return Math.Log(number, logBase);  // Return the logarithm of the number with the specified base
             }
             else

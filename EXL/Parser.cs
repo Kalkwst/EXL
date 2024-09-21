@@ -12,44 +12,44 @@ namespace EXL
 
         public Parser(Tokenizer tokenizer, Dictionary<string, object> context)
         {
-            _tokenizer = tokenizer;
-            _context = context;
-            _currentToken = _tokenizer.GetNextToken();
-            _functionFactory = new FunctionFactory();
+            this._tokenizer = tokenizer;
+            this._context = context;
+            this._currentToken = this._tokenizer.GetNextToken();
+            this._functionFactory = new FunctionFactory();
         }
 
         private void Eat(TokenType tokenType)
         {
-            if (_currentToken.Type == tokenType)
+            if (this._currentToken.Type == tokenType)
             {
-                _currentToken = _tokenizer.GetNextToken();
+                this._currentToken = this._tokenizer.GetNextToken();
             }
             else
             {
-                throw new InvalidOperationException($"Unexpected token: {_currentToken.Type}");
+                throw new InvalidOperationException($"Unexpected token: {this._currentToken.Type}");
             }
         }
 
         // Parse expressions involving addition and subtraction (lower precedence)
         public object ParseExpression()
         {
-            var result = ParseTerm();
+            var result = this.ParseTerm();
 
-            while (_currentToken.Type == TokenType.ADDITION || _currentToken.Type == TokenType.SUBTRACTION)
+            while (this._currentToken.Type == TokenType.ADDITION || this._currentToken.Type == TokenType.SUBTRACTION)
             {
-                if (_currentToken.Type == TokenType.ADDITION)
+                if (this._currentToken.Type == TokenType.ADDITION)
                 {
-                    Eat(TokenType.ADDITION);
-                    var right = ParseTerm();
+                    this.Eat(TokenType.ADDITION);
+                    var right = this.ParseTerm();
 
                     // Handle array concatenation only for the '+' operator
                     if (result is double[] && right is double[])
                     {
-                        result = CombineArrays((double[])result, (double[])right);
+                        result = this.CombineArrays((double[])result, (double[])right);
                     }
                     else if (result is string[] && right is string[])
                     {
-                        result = CombineArrays((string[])result, (string[])right);
+                        result = this.CombineArrays((string[])result, (string[])right);
                     }
                     else if (result is string || right is string)
                     {
@@ -60,10 +60,10 @@ namespace EXL
                         result = Convert.ToDouble(result) + Convert.ToDouble(right);  // Perform addition
                     }
                 }
-                else if (_currentToken.Type == TokenType.SUBTRACTION)
+                else if (this._currentToken.Type == TokenType.SUBTRACTION)
                 {
-                    Eat(TokenType.SUBTRACTION);
-                    var right = ParseTerm();
+                    this.Eat(TokenType.SUBTRACTION);
+                    var right = this.ParseTerm();
 
                     // Disallow subtraction for arrays, but allow for numbers and strings
                     if (result is double[] || right is double[])
@@ -88,20 +88,20 @@ namespace EXL
         // Parse terms involving multiplication and division (higher precedence)
         private object ParseTerm()
         {
-            var result = ParseFactor();
+            var result = this.ParseFactor();
 
-            while (_currentToken.Type == TokenType.MULTIPLICATION || _currentToken.Type == TokenType.DIVISION)
+            while (this._currentToken.Type == TokenType.MULTIPLICATION || this._currentToken.Type == TokenType.DIVISION)
             {
-                if (_currentToken.Type == TokenType.MULTIPLICATION)
+                if (this._currentToken.Type == TokenType.MULTIPLICATION)
                 {
-                    Eat(TokenType.MULTIPLICATION);
-                    var right = ParseFactor();
+                    this.Eat(TokenType.MULTIPLICATION);
+                    var right = this.ParseFactor();
                     result = Convert.ToDouble(result) * Convert.ToDouble(right);  // Perform multiplication
                 }
-                else if (_currentToken.Type == TokenType.DIVISION)
+                else if (this._currentToken.Type == TokenType.DIVISION)
                 {
-                    Eat(TokenType.DIVISION);
-                    var right = ParseFactor();
+                    this.Eat(TokenType.DIVISION);
+                    var right = this.ParseFactor();
 
                     if (Convert.ToDouble(right) == 0)
                     {
@@ -118,49 +118,49 @@ namespace EXL
         // Parse factors: numbers, variables, and expressions inside parentheses
         private object ParseFactor()
         {
-            if (_currentToken.Type == TokenType.LEFT_PAREN)
+            if (this._currentToken.Type == TokenType.LEFT_PAREN)
             {
                 // Handle parentheses
-                Eat(TokenType.LEFT_PAREN);
-                var result = ParseExpression();  // Parse the expression inside the parentheses
-                Eat(TokenType.RIGHT_PAREN);  // Match the closing parenthesis
+                this.Eat(TokenType.LEFT_PAREN);
+                var result = this.ParseExpression();  // Parse the expression inside the parentheses
+                this.Eat(TokenType.RIGHT_PAREN);  // Match the closing parenthesis
                 return result;
             }
 
-            if (_currentToken.Type == TokenType.LEFT_BRACKET)
+            if (this._currentToken.Type == TokenType.LEFT_BRACKET)
             {
                 // Handle arrays
-                return ParseArray();
+                return this.ParseArray();
             }
 
-            var token = _currentToken;
+            var token = this._currentToken;
 
             if (token.Type == TokenType.NUMBER)
             {
-                Eat(TokenType.NUMBER);
+                this.Eat(TokenType.NUMBER);
                 return token.Value.Contains(".") ? double.Parse(token.Value) : int.Parse(token.Value);
             }
 
             if (token.Type == TokenType.STRING)
             {
-                Eat(TokenType.STRING);
+                this.Eat(TokenType.STRING);
                 return token.Value;  // Return string as-is
             }
 
             if (token.Type == TokenType.BOOL)
             {
-                Eat(TokenType.BOOL);
+                this.Eat(TokenType.BOOL);
                 return token.Value == "TRUE";  // Return true or false
             }
 
             if (token.Type == TokenType.VARIABLE)
             {
                 var variableName = token.Value;
-                Eat(TokenType.VARIABLE);
+                this.Eat(TokenType.VARIABLE);
 
-                if (_context.ContainsKey(variableName))
+                if (this._context.ContainsKey(variableName))
                 {
-                    return _context[variableName];
+                    return this._context[variableName];
                 }
                 else
                 {
@@ -168,9 +168,9 @@ namespace EXL
                 }
             }
 
-            if (_currentToken.Type == TokenType.FUNCTION)
+            if (this._currentToken.Type == TokenType.FUNCTION)
             {
-                return ParseFunction();
+                return this.ParseFunction();
             }
 
             throw new InvalidOperationException($"Unexpected token: {token.Type}");
@@ -178,20 +178,20 @@ namespace EXL
 
         private object ParseArray()
         {
-            Eat(TokenType.LEFT_BRACKET);  // Consume the opening bracket '['
+            this.Eat(TokenType.LEFT_BRACKET);  // Consume the opening bracket '['
 
             var elements = new List<object>();
             var arrayType = TokenType.NUMBER_ARRAY;  // Default to number array
 
-            while (_currentToken.Type != TokenType.RIGHT_BRACKET)
+            while (this._currentToken.Type != TokenType.RIGHT_BRACKET)
             {
-                if (_currentToken.Type == TokenType.COMMA)
+                if (this._currentToken.Type == TokenType.COMMA)
                 {
-                    Eat(TokenType.COMMA);  // Consume commas between array elements
+                    this.Eat(TokenType.COMMA);  // Consume commas between array elements
                 }
                 else
                 {
-                    var element = ParseFactor();  // Parse each element inside the array
+                    var element = this.ParseFactor();  // Parse each element inside the array
                     elements.Add(element);
 
                     // Determine the array type dynamically
@@ -206,7 +206,7 @@ namespace EXL
                 }
             }
 
-            Eat(TokenType.RIGHT_BRACKET);  // Consume the closing bracket ']'
+            this.Eat(TokenType.RIGHT_BRACKET);  // Consume the closing bracket ']'
 
             // Convert the elements to an appropriate array based on type
             return arrayType switch
@@ -220,27 +220,27 @@ namespace EXL
 
         private object ParseFunction()
         {
-            var functionName = _currentToken.Value;
-            Eat(TokenType.FUNCTION);
+            var functionName = this._currentToken.Value;
+            this.Eat(TokenType.FUNCTION);
 
-            Eat(TokenType.LEFT_PAREN);  // Expect '('
+            this.Eat(TokenType.LEFT_PAREN);  // Expect '('
 
             // Parse arguments inside the function call
             var args = new List<object>();
-            while (_currentToken.Type != TokenType.RIGHT_PAREN)
+            while (this._currentToken.Type != TokenType.RIGHT_PAREN)
             {
-                args.Add(ParseExpression());
+                args.Add(this.ParseExpression());
 
-                if (_currentToken.Type == TokenType.COMMA)
+                if (this._currentToken.Type == TokenType.COMMA)
                 {
-                    Eat(TokenType.COMMA);  // Consume comma between arguments
+                    this.Eat(TokenType.COMMA);  // Consume comma between arguments
                 }
             }
 
-            Eat(TokenType.RIGHT_PAREN);  // Expect ')'
+            this.Eat(TokenType.RIGHT_PAREN);  // Expect ')'
 
             // Retrieve and execute the function using the factory
-            var function = _functionFactory.GetFunction(functionName);
+            var function = this._functionFactory.GetFunction(functionName);
             return function.Execute(args.ToArray());
         }
 

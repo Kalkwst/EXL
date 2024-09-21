@@ -1,4 +1,4 @@
-﻿using EXL.Utils;
+using EXL.Utils;
 
 namespace EXL.Functions.Mathematical
 {
@@ -11,8 +11,15 @@ namespace EXL.Functions.Mathematical
                 throw new InvalidOperationException("MOD function requires exactly two arguments: number and divisor.");
             }
 
-            Checks.CanConvertToDouble(args[0], "MOD function requires a number argument", out double number);
-            Checks.CanConvertToDouble(args[1], "MOD function requires a divisor argument", out double divisor);
+            if (!Checks.TryConvertToDouble(args[0], out var number))
+            {
+                throw new InvalidOperationException("ACOS function requires a numeric value.");
+            }
+
+            if (!Checks.TryConvertToDouble(args[0], out var divisor))
+            {
+                throw new InvalidOperationException("ACOS function requires a numeric value.");
+            }
 
             if (divisor == 0)
             {

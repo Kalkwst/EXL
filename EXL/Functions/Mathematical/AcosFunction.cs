@@ -17,7 +17,7 @@ namespace EXL.Functions.Mathematical
                 throw new InvalidOperationException("ACOS function requires a numeric value.");
             }
 
-            if (number < -1 || number > 1)
+            if (number < -1.0 || number > 1.0)
             {
                 throw new InvalidOperationException("The number argument for ACOS must be between -1 and 1.");
             }
