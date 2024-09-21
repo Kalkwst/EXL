@@ -1,4 +1,4 @@
-﻿using EXL.Functions.Mathematical;
+using EXL.Functions.Mathematical;
 
 namespace EXL.Tests.Functions.Mathematical
 {
@@ -6,6 +6,7 @@ namespace EXL.Tests.Functions.Mathematical
     public class AcoshFunctionTests
     {
         private AcoshFunction _acoshFunction;
+        private static readonly object[] args = new object[] { };
 
         [SetUp]
         public void SetUp()
@@ -41,7 +42,7 @@ namespace EXL.Tests.Functions.Mathematical
         [Test]
         public void Execute_WithEmptyArguments_ThrowsInvalidOperationException()
         {
-            Assert.Throws<InvalidOperationException>(() => _acoshFunction.Execute(new object[] { }));
+            Assert.Throws<InvalidOperationException>(() => _acoshFunction.Execute(args));
         }
     }
 }

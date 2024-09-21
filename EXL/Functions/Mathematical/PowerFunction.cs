@@ -1,4 +1,4 @@
-﻿using EXL.Utils;
+using EXL.Utils;
 
 namespace EXL.Functions.Mathematical
 {
@@ -11,8 +11,15 @@ namespace EXL.Functions.Mathematical
                 throw new InvalidOperationException("POWER function requires exactly two arguments: number and power.");
             }
 
-            Checks.CanConvertToDouble(args[0], "POWER function requires a number argument", out double number);
-            Checks.CanConvertToDouble(args[1], "POWER function requires a power argument", out double power);
+            if (!Checks.TryConvertToDouble(args[0], out var number))
+            {
+                throw new InvalidOperationException("ACOS function requires a numeric value.");
+            }
+
+            if (!Checks.TryConvertToDouble(args[0], out var power))
+            {
+                throw new InvalidOperationException("ACOS function requires a numeric value.");
+            }
 
             return Math.Pow(number, power);  // Return number raised to the power
         }

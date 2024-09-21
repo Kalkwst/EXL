@@ -1,4 +1,4 @@
-﻿using EXL.Utils;
+using EXL.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +16,10 @@ namespace EXL.Functions.Mathematical
                 throw new InvalidOperationException("ODD function requires exactly one argument: number.");
             }
 
-            Checks.CanConvertToDouble(args[0], "ODD function requires a number argument", out double number);
+            if (!Checks.TryConvertToDouble(args[0], out var number))
+            {
+                throw new InvalidOperationException("ACOS function requires a numeric value.");
+            }
 
             // Check if the input is nonnumeric
             if (double.IsNaN(number))

@@ -1,4 +1,4 @@
-﻿using EXL.Utils;
+using EXL.Utils;
 
 namespace EXL.Functions.Mathematical
 {
@@ -11,7 +11,10 @@ namespace EXL.Functions.Mathematical
                 throw new InvalidOperationException("DEGREES function requires exactly one argument: angle in radians.");
             }
 
-            Checks.CanConvertToDouble(args[0], "DEGREES function requires a numeric value.", out double radians);
+            if (!Checks.TryConvertToDouble(args[0], out var radians))
+            {
+                throw new InvalidOperationException("ACOS function requires a numeric value.");
+            }
 
             return radians * (180.0 / Math.PI);  // Convert radians to degrees
         }
