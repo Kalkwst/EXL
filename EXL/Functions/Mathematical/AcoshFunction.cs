@@ -1,4 +1,4 @@
-﻿using EXL.Utils;
+using EXL.Utils;
 
 namespace EXL.Functions.Mathematical
 {
@@ -11,7 +11,10 @@ namespace EXL.Functions.Mathematical
                 throw new InvalidOperationException("ACOSH function requires exactly one argument: number.");
             }
 
-            Checks.CanConvertToDouble(args[0], "ACOSH function requires a numeric value.", out double number);
+            if (!Checks.TryConvertToDouble(args[0], out var number))
+            {
+                throw new InvalidOperationException("ACOS function requires a numeric value.");
+            }
 
             if (number < 1)
             {

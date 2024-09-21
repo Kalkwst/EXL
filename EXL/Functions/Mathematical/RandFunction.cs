@@ -1,4 +1,4 @@
-﻿using EXL.Utils;
+using EXL.Utils;
 
 namespace EXL.Functions.Mathematical
 {
@@ -16,7 +16,10 @@ namespace EXL.Functions.Mathematical
             else if (args.Length == 1)
             {
                 // One argument: Return a random number between 1 and the argument
-                Checks.CanConvertToDouble(args[0], "RAND function requires a number argument", out double max);
+                if (!Checks.TryConvertToDouble(args[0], out var max))
+                {
+                    throw new InvalidOperationException("ACOS function requires a numeric value.");
+                }
 
                 if (max <= 1)
                 {
@@ -28,8 +31,15 @@ namespace EXL.Functions.Mathematical
             else if (args.Length == 2)
             {
                 // Two arguments: Return a random number between min and max
-                Checks.CanConvertToDouble(args[0], "RAND function requires a number argument", out double min);
-                Checks.CanConvertToDouble(args[1], "RAND function requires a number argument", out double max);
+                if (!Checks.TryConvertToDouble(args[0], out var min))
+                {
+                    throw new InvalidOperationException("ACOS function requires a numeric value.");
+                }
+
+                if (!Checks.TryConvertToDouble(args[1], out var max))
+                {
+                    throw new InvalidOperationException("ACOS function requires a numeric value.");
+                }
 
                 if (min >= max)
                 {

@@ -1,4 +1,4 @@
-﻿using EXL.Utils;
+using EXL.Utils;
 
 namespace EXL.Functions.Mathematical
 {
@@ -11,8 +11,15 @@ namespace EXL.Functions.Mathematical
                 throw new InvalidOperationException("COMBINATION function requires exactly two arguments: number and number_chosen.");
             }
 
-            Checks.CanConvertToDouble(args[0], "COMBINATION function requires a number argument for n.", out double x);
-            Checks.CanConvertToDouble(args[1], "COMBINATION function requires a number argument for k.", out double y);
+            if (!Checks.TryConvertToDouble(args[0], out var x))
+            {
+                throw new InvalidOperationException("ACOS function requires a numeric value.");
+            }
+
+            if (!Checks.TryConvertToDouble(args[1], out var y))
+            {
+                throw new InvalidOperationException("ACOS function requires a numeric value.");
+            }
 
             int n = (int)Math.Floor(x);  // Truncate to integer
             int k = (int)Math.Floor(y);  // Truncate to integer
@@ -22,7 +29,7 @@ namespace EXL.Functions.Mathematical
                 throw new InvalidOperationException("COMBINATION function requires number >= 0, number_chosen >= 0, and number >= number_chosen.");
             }
 
-            return Factorial(n) / (Factorial(k) * Factorial(n - k));
+            return this.Factorial(n) / (this.Factorial(k) * this.Factorial(n - k));
         }
 
         private double Factorial(int number)

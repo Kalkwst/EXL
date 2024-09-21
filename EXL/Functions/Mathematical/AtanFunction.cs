@@ -1,4 +1,4 @@
-﻿using EXL.Utils;
+using EXL.Utils;
 
 namespace EXL.Functions.Mathematical
 {
@@ -8,15 +8,26 @@ namespace EXL.Functions.Mathematical
         {
             if (args.Length == 1)
             {
-                Checks.CanConvertToDouble(args[0], "ATAN function requires a numeric value.", out double number);
+                if (!Checks.TryConvertToDouble(args[0], out var number))
+                {
+                    throw new InvalidOperationException("ACOS function requires a numeric value.");
+                }
+
                 return Math.Atan(number);  // Return the arctangent in radians
             }
             else if (args.Length == 2)
             {
                 // Two arguments: Compute the arctangent based on (x, y) coordinates
-                Checks.CanConvertToDouble(args[0], "ATAN function requires a numeric value for the x-coordinate.", out double x);
-                Checks.CanConvertToDouble(args[1], "ATAN function requires a numeric value for the y-coordinate.", out double y);
-                
+                if (!Checks.TryConvertToDouble(args[0], out var x))
+                {
+                    throw new InvalidOperationException("ACOS function requires a numeric value.");
+                }
+
+                if (!Checks.TryConvertToDouble(args[1], out var y))
+                {
+                    throw new InvalidOperationException("ACOS function requires a numeric value.");
+                }
+
                 return Math.Atan2(x, y);  // Return the angle in radians
             }
             else

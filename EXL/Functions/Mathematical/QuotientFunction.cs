@@ -1,4 +1,4 @@
-﻿using EXL.Utils;
+using EXL.Utils;
 
 namespace EXL.Functions.Mathematical
 {
@@ -11,8 +11,15 @@ namespace EXL.Functions.Mathematical
                 throw new InvalidOperationException("QUOTIENT function requires exactly two arguments: numerator and denominator.");
             }
 
-            Checks.CanConvertToDouble(args[0], "QUOTIENT function requires a numerator argument", out double numerator);
-            Checks.CanConvertToDouble(args[1], "QUOTIENT function requires a denominator argument", out double denominator);
+            if (!Checks.TryConvertToDouble(args[0], out var numerator))
+            {
+                throw new InvalidOperationException("ACOS function requires a numeric value.");
+            }
+
+            if (!Checks.TryConvertToDouble(args[0], out var denominator))
+            {
+                throw new InvalidOperationException("ACOS function requires a numeric value.");
+            }
 
             if (denominator == 0)
             {
