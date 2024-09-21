@@ -23,7 +23,7 @@ namespace EXL.Functions.Mathematical
                 throw new InvalidOperationException("ACOSH function requires exactly one argument: number.");
             }
 
-            if (!Checks.TryConvertToDouble(args[0], out double number))
+            if (args[0] is not double number && !Checks.TryConvertToDouble(args[0], out number))
             {
                 throw new InvalidOperationException("ACOSH function requires a numeric value.");
             }
